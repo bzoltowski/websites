@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>User Zadanie rekrutacyjne</title>
+</head>
+<body>
+<form method="get" action="">
+    <p>Kategoria: <input type="text" name="category"/></p>
+    <p><input type="submit" name="submit" value="submit"/></p>
+</form>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th><a href="?sort=url">URL</a></th>
+      <th><a href="?sort=title">Title</a></th>
+      <th><a href="?sort=meta_description">Meta desc</a></th>
+      <th><a href="?sort=alexa_rank">Alexa Rank</a></th>
+      <th><a href="?sort=category">Category</a></th>
+      <th><a href="?sort=date_added">Date Added</a></th>
+      <th><a href="?sort=date_updated">Date Updated</a></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for web in websites %}
+      <tr>
+        <td>{{ web.url }}</td>
+        <td>{{ web.title }}</td>
+        <td>{{ web.meta_description }}</td>
+        <td>{{ web.alexa_rank }}</td>
+        <td>{{ web.category }}</td>
+        <td>{{ web.date_added }}</td>
+        <td>{{ web.date_updated }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% if websites.has_other_pages %}
+  <ul class="pagination">
+    {% if websites.has_previous %}
+      <li><a href="?page={{ websites.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in websites.paginator.page_range %}
+      {% if websites.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a href="?page={{ websites.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</body>
+</html>
